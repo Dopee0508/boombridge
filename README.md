@@ -1,17 +1,16 @@
 # BOOMBRIDGE
 
 ## Website Sitemap Structure
-Color codes: **High = MVP** | **Medium = Phase 2** | **Low = Future Development**
 
 ```mermaid
 graph TB
 
 %% =========================
 %% BOOMBRIDGE Website Sitemap (priority-ordered + color-coded)
-%% High = MVP (green) | Medium = Phase 2 (yellow) | Low = Future (blue)
+%% High = MVP (green) | Low = Future (blue)
 %% =========================
 
-A[Homepage]
+A[Homepage - MVP]
 
 %% --- MVP (High) ---
 subgraph B[Dashboard — MVP 1]
@@ -26,55 +25,55 @@ subgraph C[Products & RFQ — MVP 2]
   C3[Quotation Response]
 end
 
-subgraph E[Payments & Wallet — MVP 3]
-  E1[Wallet Overview]
-  E2[Transaction History]
-  E3[Payment Options]
+subgraph D[Payments & Wallet — MVP 3]
+  D1[Wallet Overview]
+  D2[Transaction History]
+  D3[Payment Options]
+end
+
+subgraph E[Contact & Support]
+  E1[FAQ]
+  E2[Contact Form]
+  E3[Live Chat]
 end
 
 %% --- Phase 2 (Medium) ---
-subgraph D[Suppliers — Phase 2]
-  D1[Supplier List]
-  D2[Supplier Details]
-  D3[Ratings and Reviews]
+subgraph F[Suppliers — Phase 2]
+  F1[Supplier List]
+  F2[Supplier Details]
+  F3[Ratings and Reviews]
 end
 
-subgraph L[Logistics — Phase 2]
-  L1[Delivery Tracking]
-  L2[Partner Integration]
+subgraph G[Logistics — Phase 2]
+  G1[Delivery Tracking]
+  G2[Partner Integration]
 end
 
-subgraph G[Admin Dashboard — Phase 2]
-  G1[User Management]
-  G2[KPI Analytics]
+subgraph H[Admin Dashboard — Phase 2]
+  H1[User Management]
+  H2[KPI Analytics]
 end
 
 %% --- Future (Low) ---
-subgraph F[BIM Integration]
-  F1[BIM Object Library]
-  F2[Model Integration View]
+subgraph I[BIM Integration]
+  I1[BIM Object Library]
+  I2[Model Integration View]
 end
 
-subgraph H[AI Recommendations]
-  H1[Recommended Suppliers]
-  H2[Material Suggestions]
-end
-
-subgraph J[Contact & Support]
-  J1[FAQ]
-  J2[Contact Form]
-  J3[Live Chat]
+subgraph J[AI Recommendations]
+  J1[Recommended Suppliers]
+  J2[Material Suggestions]
 end
 
 %% Top-level links from Homepage (kept light; subgraphs show containment)
 A --- B
 A --- C
-A --- E
 A --- D
-A --- L
-A --- G
+A --- E
 A --- F
+A --- G
 A --- H
+A --- I
 A --- J
 
 %% =========================
@@ -85,15 +84,103 @@ classDef medium fill:#fff59d,stroke:#f9a825,stroke-width:1px,color:#000;
 classDef low    fill:#bbdefb,stroke:#1565c0,stroke-width:1px,color:#000;
 
 %% Apply to section headers (and their inner nodes for broader effect)
-class B,C,E high;
-class D,L,G medium;
-class F,H,J low;
+class B,C,D,E high;
+class F,G,H,I,J low;
 
-class B1,B2,B3,C1,C2,C3,E1,E2,E3 high;
-class D1,D2,D3,L1,L2,G1,G2 medium;
-class F1,F2,H1,H2,J1,J2,J3 low;
+class B1,B2,B3,C1,C2,C3,D1,D2,D3,E1,E2,E3 high;
+class F1,F2,F3,G1,G2,H1,H2,I1,I2,J1,J2 low;
 ```
+---
 
+## Website Sitemap Structure
+```mermaid
+graph TB
+
+%% =========================
+%% BOOMBRIDGE Website Sitemap (priority-ordered + color-coded)
+%% High = MVP (green) | Low = Future (blue)
+%% =========================
+
+A[Homepage - MVP]
+
+%% --- MVP (High) ---
+subgraph B[Dashboard — MVP 1]
+  B1[User Profile]
+  B2[Order Tracking]
+  B3[Performance Report]
+end
+
+subgraph C[Products & RFQ — MVP 2]
+  C1[Product Catalog]
+  C2[Quotation Request]
+  C3[Quotation Response]
+end
+
+subgraph D[Payments & Wallet — MVP 3]
+  D1[Wallet Overview]
+  D2[Transaction History]
+  D3[Payment Options]
+end
+
+subgraph E[Contact & Support]
+  E1[FAQ]
+  E2[Contact Form]
+  E3[Live Chat]
+end
+
+%% --- Phase 2 (Medium) ---
+subgraph F[Suppliers — Phase 2]
+  F1[Supplier List]
+  F2[Supplier Details]
+  F3[Ratings and Reviews]
+end
+
+subgraph G[Logistics — Phase 2]
+  G1[Delivery Tracking]
+  G2[Partner Integration]
+end
+
+subgraph H[Admin Dashboard — Phase 2]
+  H1[User Management]
+  H2[KPI Analytics]
+end
+
+%% --- Future (Low) ---
+subgraph I[BIM Integration]
+  I1[BIM Object Library]
+  I2[Model Integration View]
+end
+
+subgraph J[AI Recommendations]
+  J1[Recommended Suppliers]
+  J2[Material Suggestions]
+end
+
+%% Top-level links from Homepage (kept light; subgraphs show containment)
+A --- B
+A --- C
+A --- D
+A --- E
+A --- F
+A --- G
+A --- H
+A --- I
+A --- J
+
+%% =========================
+%% Color styles by priority
+%% =========================
+classDef high   fill:#b9f6ca,stroke:#2e7d32,stroke-width:1px,color:#000;
+classDef medium fill:#fff59d,stroke:#f9a825,stroke-width:1px,color:#000;
+classDef low    fill:#bbdefb,stroke:#1565c0,stroke-width:1px,color:#000;
+
+%% Apply to section headers (and their inner nodes for broader effect)
+class B,C,D,E high;
+class F,G,H,I,J low;
+
+class B1,B2,B3,C1,C2,C3,D1,D2,D3,E1,E2,E3 high;
+class F1,F2,F3,G1,G2,H1,H2,I1,I2,J1,J2 low;
+```
 ---
 
 ## Development Timeline (12 Weeks Plan)  
