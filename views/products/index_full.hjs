@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - BOOMBRIDGE</title>
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap-icons.min.css">
+    <script src="/htmx.min.js"></script>
+    <script src="/bootstrap.bundle.min.js"></script>
+    <script>
+        // 確保 HTMX 正確初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('HTMX loaded:', typeof htmx !== 'undefined');
+        });
+    </script>
+    
+    <style>
+        :root {
+            --sidebar-width: 265px;
+            --sidebar-bg: #3d4f5d;
+            --sidebar-hover: #475563;
+            --main-bg: #ecf0f1;
+            --card-bg: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --border-color: #dee2e6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--main-bg);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text-dark);
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            background-color: var(--sidebar-bg);
+            padding-top: 0;
+            color: #fff;
+            z-index: 1030;
+            overflow-y: auto;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            background-color: var(--sidebar-bg);
+            border-bottom: none;
+        }
+        
+        .sidebar-header h5 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+        
+        .main-content {
+            margin-left: var(--sidebar-width); 
+            padding: 0;
+            min-height: 100vh;
+            background-color: var(--main-bg);
+        }
+        
+        .sidebar nav {
+            padding: 1rem 0;
+            flex: 1;
+        }
+        
+        .sidebar a {
+            color: #a8b4bf;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 0;
+            font-size: 0.95rem;
+        }
+        
+        .sidebar a i {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+            width: 24px;
+        }
+        
+        .sidebar a:hover {
+            background-color: var(--sidebar-hover);
+            color: #fff;
+        }
+        
+        .sidebar .active {
+            background-color: var(--sidebar-hover);
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .top-bar {
+            padding: 1.5rem 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .top-bar h1 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #7f8c8d;
+            margin: 0;
+        }
+        
+        .top-bar span {
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+        
+        #toast:not(:empty) {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #dc3545;
+            color: #fff;
+            text-align: center;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 2000;
+        }
+        
+        .logout-section {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            background-color: var(--sidebar-bg);
+            margin-top: auto;
+        }
+        
+        .logout-section .btn {
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-weight: 500;
+            background-color: #e74c3c;
+            border: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .logout-section .btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .content-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .content-card h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+    </style>
+    
+    <script src="/bootstrap.bundle.min.js"></script>
+</head>
+<body hx-ext="response-targets, remove-me" 
+      hx-target-error="#toast"
+      hx-on::before-swap="doWrap(event)">
+
+    {{> sidebar}}
+    
+    <div class="main-content">
+        <header class="top-bar d-flex justify-content-between align-items-center">
+            <h1 class="h5 m-0 text-secondary">{{title}}</h1>
+            <span class="text-secondary">Welcome, {{userEmail}}!</span>
+        </header>
+
+        <div id="toast"></div>
+
+        <main class="p-5" style="background-color: var(--main-bg); min-height: calc(100vh - 85px);"> 
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-box-seam"></i> {{title}}</h2>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
+            <form method="GET" action="/products" class="row g-2">
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="search" placeholder="Search by product ID or name..." value="{{search}}">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 120px;">Product ID</th>
+                        <th>Name (VMD SNCS)</th>
+                        <th>Category</th>
+                        <th>Supplier</th>
+                        <th style="width: 100px;">Stock</th>
+                        <th style="width: 120px;">Price</th>
+                        <th style="width: 180px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    {{#products}}
+                        {{> product_row}}
+                    {{/products}}
+                </tbody>
+            </table>
+            
+            <!-- Pagination -->
+            {{#if totalPages}}
+            <nav aria-label="Page navigation" class="mt-3">
+                <ul class="pagination justify-content-center">
+                    {{#if hasPrevious}}
+                    <li class="page-item">
+                        <a class="page-link" href="/products?page={{previousPage}}{{#if search}}&search={{search}}{{/if}}">Previous</a>
+                    </li>
+                    {{/if}}
+                    
+                    {{#each pages}}
+                    <li class="page-item {{#if active}}active{{/if}}">
+                        <a class="page-link" href="/products?page={{number}}{{#if ../search}}&search={{../search}}{{/if}}">{{number}}</a>
+                    </li>
+                    {{/each}}
+                    
+                    {{#if hasNext}}
+                    <li class="page-item">
+                        <a class="page-link" href="/products?page={{nextPage}}{{#if search}}&search={{search}}{{/if}}">Next</a>
+                    </li>
+                    {{/if}}
+                </ul>
+                <div class="text-center text-muted small mt-2">Page {{currentPage}} of {{totalPages}}</div>
+            </nav>
+            {{/if}}
+        </div>
+    </div>
+</div>
+        </main>
+    </div>
+
+    <script>
+        function doWrap(e) {
+            if (e.detail.isError) {
+                e.detail.serverResponse = '<div remove-me="3s">' + e.detail.serverResponse + '</div>';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
+    "express": "^5.1.0",
+    "express-fileupload": "^1.5.2",
+    "express-session": "^1.18.2",
+    "hjs": "^0.0.6",
+    "hogan.js": "^3.0.2",
+    "htmx-ext-remove-me": "^2.0.2",
+    "htmx-ext-response-targets": "^2.0.4",
+    "htmx.org": "^2.0.8",
+    "mysql2": "^3.15.3"
+  }
+}

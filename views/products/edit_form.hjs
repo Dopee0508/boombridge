@@ -1,0 +1,38 @@
+<tr id="row-{{product_id}}">
+    <td><span class="badge bg-secondary">{{product_id}}</span></td>
+    <td colspan="6">
+        <form hx-put="/products/{{product_id}}" hx-target="#row-{{product_id}}" hx-swap="outerHTML" class="row g-2">
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" name="vmd_sncs" value="{{vmd_sncs}}" placeholder="Product Name" required>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select form-select-sm" name="category_id" required>
+                    {{#categories}}
+                    <option value="{{category_id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+                    {{/categories}}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select form-select-sm" name="supplier_id" required>
+                    {{#suppliers}}
+                    <option value="{{supplier_id}}" {{#selected}}selected{{/selected}}>{{company_name}}</option>
+                    {{/suppliers}}
+                </select>
+            </div>
+            <div class="col-md-1">
+                <input type="number" class="form-control form-control-sm" name="stock_qty" value="{{stock_qty}}" required>
+            </div>
+            <div class="col-md-2">
+                <input type="number" step="0.01" class="form-control form-control-sm" name="list_price" value="{{list_price}}" required>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" name="action" value="update" class="btn btn-sm btn-primary me-1">
+                    <i class="bi bi-check-circle"></i> Save
+                </button>
+                <button type="submit" name="action" value="cancel" class="btn btn-sm btn-secondary">
+                    <i class="bi bi-x-circle"></i> Cancel
+                </button>
+            </div>
+        </form>
+    </td>
+</tr>

@@ -1,0 +1,12 @@
+<tr id="row-{{category_id}}">
+    <td>{{category_id}}</td>
+    <td>{{name}}</td>
+    <td>
+        <button class="btn btn-sm btn-outline-primary" hx-get="/categories/{{category_id}}/edit" hx-target="#row-{{category_id}}" hx-swap="outerHTML">
+            <i class="bi bi-pencil"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger" hx-delete="/categories/{{category_id}}" hx-target="#row-{{category_id}}" hx-swap="outerHTML">
+            <i class="bi bi-trash"></i>
+        </button>
+    </td>
+</tr>

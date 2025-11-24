@@ -1,0 +1,18 @@
+<tr id="row-{{category.category_id}}">
+    <td>{{category.category_id}}</td>
+    <td colspan="2">
+        <form hx-put="/categories/{{category.category_id}}" hx-target="#row-{{category.category_id}}" hx-swap="outerHTML" class="row g-2">
+            <div class="col-md-8">
+                <input type="text" class="form-control form-control-sm" name="name" value="{{category.name}}" required>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" name="action" value="update" class="btn btn-sm btn-success me-1">
+                    <i class="bi bi-check"></i>
+                </button>
+                <button type="submit" name="action" value="cancel" class="btn btn-sm btn-secondary">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+        </form>
+    </td>
+</tr>

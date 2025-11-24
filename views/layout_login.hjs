@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - BOOMBRIDGE</title>
+    <script src="/htmx.min.js"></script>
+    <script src="/response-targets.js"></script>
+    <script src="/remove-me.js"></script>
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap-icons.min.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        #toast:not(:empty) {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #dc3545;
+            color: #fff;
+            text-align: center;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 2000;
+        }
+    </style>
+    
+    <script src="/bootstrap.bundle.min.js"></script>
+</head>
+<body hx-ext="response-targets, remove-me" 
+      hx-target-error="#toast"
+      hx-on::before-swap="doWrap(event)">
+
+    <div id="toast"></div>
+
+    <main id="main"> 
+          
+        {{#where}}
+            <div hx-trigger="load" hx-get="{{where}}"></div>
+        {{/where}}
+        {{^where}}
+            {{{body}}}
+        {{/where}}
+    </main>
+
+    <script>
+        function doWrap(e) {
+            if (e.detail.isError) {
+                e.detail.serverResponse = '<div remove-me="3s">' + e.detail.serverResponse + '</div>';
+            }
+        }
+    </script>
+</body>
+</html>
