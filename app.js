@@ -224,7 +224,11 @@ app.use('/order_details', requireLogin, orderDetailRouter);
 
 // 根路徑重定向
 app.get('/', (req, res) => {
-    res.redirect('/dashboard');
+    if (req.session.user) {
+        res.redirect('/dashboard');
+    } else {
+        res.redirect('/login');
+    }
 });
 
 app.listen(80, function () {
