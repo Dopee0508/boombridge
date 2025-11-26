@@ -1,0 +1,21 @@
+<div class="sidebar d-flex flex-column">
+    <div class="sidebar-header">
+        <h5 class="text-white">BOOMBRIDGE</h5>
+    </div>
+
+    <nav class="flex-grow-1">
+        <a href="/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="/users"><i class="bi bi-people"></i> Users</a>
+        <a href="/suppliers"><i class="bi bi-building"></i> Suppliers</a>
+        <a href="/categories"><i class="bi bi-tags"></i> Categories</a>
+        <a href="/products"><i class="bi bi-box-seam"></i> Products</a>
+        <a href="/orders"><i class="bi bi-receipt"></i> Orders</a>
+        <a href="/order_details"><i class="bi bi-list-check"></i> Order Details</a>
+    </nav>
+
+    <div class="logout-section">
+        <a href="/logout" class="btn btn-danger w-100">
+            <i class="bi bi-box-arrow-left"></i> Logout
+        </a>
+    </div>
+</div>

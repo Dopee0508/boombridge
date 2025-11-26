@@ -1,0 +1,109 @@
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-list-check"></i> Order Details Management</h2>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
+            <form method="GET" action="/order_details" class="row g-2">
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="search" placeholder="Search by order ID or product ID..." value="{{search}}">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 120px;">Order ID</th>
+                        <th style="width: 120px;">Product ID</th>
+                        <th>Product Name</th>
+                        <th style="width: 100px;">Quantity</th>
+                        <th style="width: 120px;">Unit Price</th>
+                        <th style="width: 180px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr id="addRow" style="background-color: #e3f2fd;">
+                        <td colspan="6">
+                            <button class="btn btn-sm btn-primary w-100" onclick="document.getElementById('addForm').style.display='table-row'; this.parentElement.parentElement.style.display='none';">
+                                <i class="bi bi-plus-circle"></i> Add New Order Detail
+                            </button>
+                        </td>
+                    </tr>
+                    <tr id="addForm" style="display: none; background-color: #fff3cd;">
+                        <td colspan="6">
+                            <form hx-post="/order_details" hx-target="#addForm" hx-swap="beforebegin" class="row g-2 p-2">
+                                <div class="col-md-2">
+                                    <select class="form-select form-select-sm" name="order_id" required>
+                                        <option value="">Order</option>
+                                        {{#orders}}
+                                        <option value="{{order_id}}">{{order_id}}</option>
+                                        {{/orders}}
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-select form-select-sm" name="product_id" required>
+                                        <option value="">Product</option>
+                                        {{#products}}
+                                        <option value="{{product_id}}">{{product_id}} - {{vmd_sncs}}</option>
+                                        {{/products}}
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" step="0.01" class="form-control form-control-sm" name="quantity" placeholder="Quantity" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" step="0.01" class="form-control form-control-sm" name="unit_price" placeholder="Unit Price" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-success btn-sm w-100"><i class="bi bi-check-circle"></i> Create</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    {{#order_details}}
+                    {{> order_detail_row}}
+                    {{/order_details}}
+                </tbody>
+            </table>
+            
+            <!-- Pagination -->
+            {{#totalPages}}
+            <nav aria-label="Page navigation" class="mt-3">
+                <ul class="pagination justify-content-center align-items-center">
+                    {{#hasPrevious}}
+                    <li class="page-item">
+                        <a class="page-link" href="/order_details?page={{previousPage}}{{#search}}&search={{search}}{{/search}}">Previous</a>
+                    </li>
+                    {{/hasPrevious}}
+                    
+                    <li class="page-item mx-2">
+                        <form method="GET" action="/order_details" class="d-flex align-items-center gap-2">
+                            <input type="hidden" name="search" value="{{search}}">
+                            <span class="small">Page</span>
+                            <input type="number" name="page" value="{{currentPage}}" min="1" max="{{totalPages}}" class="form-control form-control-sm" style="width: 70px;" onchange="this.form.submit()">
+                            <span class="small">of {{totalPages}}</span>
+                        </form>
+                    </li>
+                    
+                    {{#hasNext}}
+                    <li class="page-item">
+                        <a class="page-link" href="/order_details?page={{nextPage}}{{#search}}&search={{search}}{{/search}}">Next</a>
+                    </li>
+                    {{/hasNext}}
+                </ul>
+            </nav>
+            {{/totalPages}}
+        </div>
+    </div>
+</div>

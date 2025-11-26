@@ -1,0 +1,60 @@
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-list-check"></i> {{title}}</h2>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 120px;">Order ID</th>
+                        <th style="width: 120px;">Product ID</th>
+                        <th>Product Name</th>
+                        <th style="width: 100px;">Quantity</th>
+                        <th style="width: 120px;">Unit Price</th>
+                        <th style="width: 180px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    {{#order_details}}
+                        {{> order_detail_row}}
+                    {{/order_details}}
+                    <tr id="addRow">
+                        <td colspan="6">
+                            <form hx-post="/order_details" hx-target="#addRow" hx-swap="beforebegin" class="row g-2">
+                                <div class="col-md-2">
+                                    <select class="form-select form-select-sm" name="order_id" required>
+                                        <option value="">Select Order</option>
+                                        {{#orders}}
+                                        <option value="{{order_id}}">{{order_id}}</option>
+                                        {{/orders}}
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-select form-select-sm" name="product_id" required>
+                                        <option value="">Select Product</option>
+                                        {{#products}}
+                                        <option value="{{product_id}}">{{product_id}} - {{vmd_sncs}}</option>
+                                        {{/products}}
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" step="0.01" class="form-control form-control-sm" name="quantity" placeholder="Quantity" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" step="0.01" class="form-control form-control-sm" name="unit_price" placeholder="Unit Price" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-sm btn-primary w-100">
+                                        <i class="bi bi-plus-circle"></i> Add Detail
+                                    </button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

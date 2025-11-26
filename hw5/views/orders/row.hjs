@@ -1,0 +1,14 @@
+<tr id="row-{{order_id}}">
+    <td><span class="badge bg-success">{{order_id}}</span></td>
+    <td>{{user_name}}</td>
+    <td>{{order_date}}</td>
+    <td><span class="badge bg-warning">{{status}}</span></td>
+    <td>
+        <button hx-get="/orders/{{order_id}}/edit" hx-target="#row-{{order_id}}" hx-swap="outerHTML" class="btn btn-sm btn-outline-primary">
+            <i class="bi bi-pencil"></i> Edit
+        </button>
+        <button hx-delete="/orders/{{order_id}}" hx-target="#row-{{order_id}}" hx-swap="outerHTML swap:1s" hx-confirm="Delete this order?" class="btn btn-sm btn-outline-danger">
+            <i class="bi bi-trash"></i> Delete
+        </button>
+    </td>
+</tr>

@@ -1,0 +1,28 @@
+<tr id="row-{{order_id}}">
+    <td><span class="badge bg-secondary">{{order_id}}</span></td>
+    <td colspan="4">
+        <form hx-put="/orders/{{order_id}}" hx-target="#row-{{order_id}}" hx-swap="outerHTML" class="row g-2">
+            <div class="col-md-3">
+                <select class="form-select form-select-sm" name="user_id" required>
+                    {{#users}}
+                    <option value="{{user_id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+                    {{/users}}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input type="date" class="form-control form-control-sm" name="order_date" value="{{order_date}}" required>
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" name="status" value="{{status}}" placeholder="Status" required>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" name="action" value="update" class="btn btn-sm btn-primary me-1">
+                    <i class="bi bi-check-circle"></i> Save
+                </button>
+                <button type="button" hx-get="/orders/{{order_id}}" hx-target="#row-{{order_id}}" hx-swap="outerHTML" class="btn btn-sm btn-secondary">
+                    <i class="bi bi-x-circle"></i> Cancel
+                </button>
+            </div>
+        </form>
+    </td>
+</tr>
