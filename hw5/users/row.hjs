@@ -1,0 +1,33 @@
+<tr id="row-{{user_id}}">
+    <td>{{user_id}}</td>
+    <td>{{name}}</td>
+    <td>{{email}}</td>
+    <td>{{role}}</td>
+
+    <td>
+        <!-- Edit -->
+        <button class="btn btn-sm btn-outline-primary"
+                hx-get="/users/{{user_id}}/edit"
+                hx-target="#row-{{user_id}}"
+                hx-swap="outerHTML">
+            <i class="bi bi-pencil"></i>
+        </button>
+
+        <!-- Change Password -->
+        <button class="btn btn-sm btn-outline-warning"
+                hx-get="/users/{{user_id}}/password"
+                hx-target="#row-{{user_id}}"
+                hx-swap="outerHTML">
+            <i class="bi bi-key"></i>
+        </button>
+
+        <!-- Delete -->
+        <button class="btn btn-sm btn-outline-danger"
+                hx-delete="/users/{{user_id}}"
+                hx-target="#row-{{user_id}}"
+                hx-swap="delete"
+                hx-confirm="Delete this user?">
+            <i class="bi bi-trash"></i>
+        </button>
+    </td>
+</tr>

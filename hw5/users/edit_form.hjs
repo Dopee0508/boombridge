@@ -1,0 +1,43 @@
+<tr id="row-{{user.user_id}}">
+    <td>{{user.user_id}}</td>
+    <td colspan="4">
+        <form hx-put="/users/{{user.user_id}}" 
+              hx-target="#row-{{user.user_id}}" 
+              hx-swap="outerHTML" 
+              class="row g-2">
+
+            <div class="col-md-3">
+                <input type="text" 
+                       class="form-control form-control-sm" 
+                       name="name" 
+                       value="{{user.name}}" 
+                       required>
+            </div>
+
+            <div class="col-md-4">
+                <input type="email" 
+                       class="form-control form-control-sm" 
+                       name="email" 
+                       value="{{user.email}}" 
+                       required>
+            </div>
+
+            <div class="col-md-5">
+                <button type="submit" 
+                        name="action" 
+                        value="update" 
+                        class="btn btn-sm btn-success me-1">
+                    <i class="bi bi-check"></i> Save
+                </button>
+
+                <button type="submit" 
+                        name="action" 
+                        value="cancel" 
+                        class="btn btn-sm btn-secondary">
+                    <i class="bi bi-x"></i> Cancel
+                </button>
+            </div>
+
+        </form>
+    </td>
+</tr>
