@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BIM Objects by Category</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  </head>
+  <body class="bg-light">
+
+    <div class="container py-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">BIM Objects</h2>
+
+        <a href="/products" class="btn btn-outline-secondary btn-sm">
+          ← Back to Products
+        </a>
+      </div>
+
+      <!-- Filters: keyword + category + supplier -->
+      <form method="get" class="row g-2 mb-4">
+        <!-- keyword -->
+        <div class="col-md-4">
+          <input type="text"
+                 name="q"
+                 class="form-control"
+                 placeholder="Search BIM by product ID or name…"
+                 value="{{currentKeyword}}">
+        </div>
+
+        <!-- category -->
+        <div class="col-md-3">
+          <select name="category" class="form-select">
+            <option value="">All Categories</option>
+            {{#categories}}
+              <option value="{{category_id}}" {{#selected}}selected{{/selected}}>
+                {{name}}
+              </option>
+            {{/categories}}
+          </select>
+        </div>
+
+        <!-- supplier -->
+        <div class="col-md-3">
+          <select name="supplier" class="form-select">
+            <option value="">All Suppliers</option>
+            {{#suppliers}}
+              <option value="{{supplier_id}}" {{#selected}}selected{{/selected}}>
+                {{name}}
+              </option>
+            {{/suppliers}}
+          </select>
+        </div>
+
+        <!-- submit -->
+        <div class="col-md-2">
+          <button class="btn btn-outline-secondary w-100" type="submit">
+            Search
+          </button>
+        </div>
+      </form>
+
+      <!-- แสดงหมวดหมู่ -->
+      {{#groups}}
+      <section class="mb-5">
+        <div class="p-3 rounded-3 mb-3" style="background:#e6f4f1;">
+          <div class="d-flex align-items-center">
+            <!-- 🔹 icon ตามหมวดหมู่ -->
+            <div class="me-3">
+              <img src="{{icon}}"
+                   alt="{{category_name}} icon"
+                   style="width:40px; height:40px;">
+            </div>
+
+            <div>
+              <h4 class="mb-1">{{category_name}}</h4>
+              <p class="text-muted mb-0">
+                BIM objects in this category.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- รายการ BIM ในหมวดนี้ -->
+        <div class="row g-3">
+          {{#items}}
+          <div class="col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm">
+              {{#bim_thumbnail}}
+              <img src="/bim_thumbs/{{bim_thumbnail}}" 
+                   class="card-img-top"
+                   style="height:160px; object-fit:cover;">
+              {{/bim_thumbnail}}
+
+              <div class="card-body">
+                <h6 class="card-subtitle mb-1 text-muted">
+                  Product ID {{product_id}}
+                </h6>
+                <h5 class="card-title mb-2">
+                  {{bim_name}}
+                </h5>
+                <p class="card-text small text-muted">
+                  {{vmd_sncs}}
+                </p>
+                <a href="/bim/{{product_id}}" class="btn btn-sm btn-primary">
+                  View BIM
+                </a>
+                {{#bim_file}}
+                <a href="/bim_files/{{bim_file}}" 
+                   class="btn btn-sm btn-outline-success ms-1"
+                   target="_blank">
+                  Download
+                </a>
+                {{/bim_file}}
+              </div>
+            </div>
+          </div>
+          {{/items}}
+        </div>
+      </section>
+      {{/groups}}
+
+      {{^groups}}
+      <p class="text-muted">No BIM objects found.</p>
+      {{/groups}}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

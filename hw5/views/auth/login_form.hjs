@@ -1,39 +1,120 @@
-<div class="container-fluid d-flex align-items-center justify-content-center" style="min-height: 100vh; background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); padding: 2rem;">
-    <div style="width: 100%; max-width: 440px;">
+<div class="container-fluid min-vh-100" style="background-color: #ffffff;">
+  <div class="row g-0 min-vh-100">
+
+    <!-- LEFT 50% (Form) -->
+    <div class="col-12 col-md-6 d-flex align-items-center justify-content-center"
+         style="background: #ffffff;">
+
+      <div style="width: 100%; max-width: 420px;">
+
+        <!-- Logo + Title (centered) -->
         <div class="text-center mb-4">
-            <h1 class="text-white mb-2" style="font-size: 2.5rem; font-weight: 700; letter-spacing: 1px;">BOOMBRIDGE</h1>
-            <p class="text-white-50">Construction Management System</p>
+
+          <!-- Logo -->
+          <div style="
+              width: 56px; height: 56px;
+              margin: 0 auto;
+              border-radius: 12px;
+              background-color: #042e7b;   /* Navy Blue */
+              color: #ffffff;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: 800;
+              font-size: 28px;
+            ">
+            B
+          </div>
+
+          <!-- System Name -->
+          <h1 class="mt-3 mb-1"
+              style="font-size: 2rem; font-weight: 700; color: #0b1220;">
+            BOOMBRIDGE
+          </h1>
+
+          <p style="color: #64748b; font-size: 0.9rem;">
+            Construction Management System
+          </p>
         </div>
-        
-        <div class="card border-0 shadow-lg" style="border-radius: 16px; overflow: hidden;">
-            <div class="card-body p-5">
-                <div class="text-center mb-4">
-                    <h3 class="mb-2" style="font-weight: 600; color: #1a202c;">Welcome Back</h3>
-                    <p class="text-muted mb-0">Sign in to your account</p>
-                </div>
-                
-                <div id="login-error" class="mb-3"></div>
-                
-                <form hx-post="/login" hx-target="#login-error" hx-swap="innerHTML">
-                    <div class="mb-3">
-                        <label for="email" class="form-label" style="font-weight: 500; color: #475569; font-size: 0.875rem;">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" value="import@boombridge.com" required style="border-radius: 8px; padding: 0.75rem; border: 2px solid #e2e8f0; font-size: 0.95rem;" placeholder="Enter your email">
-                    </div>
-                    <div class="mb-4">
-                        <label for="password" class="form-label" style="font-weight: 500; color: #475569; font-size: 0.875rem;">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" value="password" required style="border-radius: 8px; padding: 0.75rem; border: 2px solid #e2e8f0; font-size: 0.95rem;" placeholder="Enter your password">
-                    </div>
-                    <button type="submit" class="btn w-100" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; border: none; border-radius: 8px; padding: 0.85rem; font-weight: 600; font-size: 1rem; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 16px rgba(59,130,246,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">Sign In</button>
-                </form>
-                
-                <div class="text-center mt-3">
-                    <small class="text-muted">Don't have an account? <a href="/register" class="text-decoration-none" style="color: #3b82f6; font-weight: 600;">Sign Up</a></small>
-                </div>
-                
-                <div class="text-center mt-4 pt-3" style="border-top: 1px solid #e2e8f0;">
-                    <small class="text-muted"><i class="bi bi-info-circle"></i> Demo: import@boombridge.com / password</small>
-                </div>
-            </div>
+
+        <!-- Card -->
+        <div class="card border-0 shadow-sm" style="border-radius: 16px;">
+          <div class="card-body p-4">
+
+            <h3 class="mb-2 text-center" style="font-weight: 600; color: #0b1220;">
+              Welcome Back
+            </h3>
+            <p class="text-center mb-4" style="color: #64748b; font-size: 0.9rem;">
+              Sign in to your account
+            </p>
+
+            <!-- error msg from /login -->
+            <div id="login-error" class="mb-3"></div>
+
+            <!-- Login form (ยังใช้ htmx แบบเดิม) -->
+            <form hx-post="/login" hx-target="#login-error" hx-swap="innerHTML">
+              <div class="mb-3">
+                <label class="form-label" style="font-size: 0.9rem; color: #475569;">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  value="import@boombridge.com"
+                  required
+                />
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label" style="font-size: 0.9rem; color: #475569;">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  class="form-control"
+                  name="password"
+                  value="password"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                class="btn w-100"
+                style="
+                  background: #0d2e75;
+                  color: #ffffff;
+                  font-weight: 600;
+                  border-radius: 8px;
+                ">
+                Sign In
+              </button>
+            </form>
+
+            <p class="text-center mt-3" style="font-size: 0.85rem; color: #64748b;">
+              Don’t have an account?
+              <a href="/register" class="text-decoration-none">Sign Up</a>
+            </p>
+
+            <p class="text-center mt-2" style="font-size: 0.8rem; color: #94a3b8;">
+              Demo: import@boombridge.com / password
+            </p>
+
+          </div>
         </div>
+
+      </div>
     </div>
+
+    <!-- RIGHT 50% (Image) -->
+    <div class="col-md-6 d-none d-md-block"
+         style="
+            background-image: url('/images/login-hero.jpg');
+            background-size: cover;
+            background-position: center;
+         ">
+    </div>
+
+  </div>
 </div>

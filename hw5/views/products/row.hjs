@@ -1,16 +1,48 @@
 <tr id="row-{{product_id}}">
-    <td><span class="badge bg-info">{{product_id}}</span></td>
-    <td>{{vmd_sncs}}</td>
-    <td>{{category_name}}</td>
-    <td>{{supplier_name}}</td>
-    <td><span class="badge bg-secondary">{{stock_qty}}</span></td>
-    <td>${{list_price}}</td>
-    <td>
-        <button hx-get="/products/{{product_id}}/edit" hx-target="#row-{{product_id}}" hx-swap="outerHTML" class="btn btn-sm btn-outline-primary">
-            <i class="bi bi-pencil"></i> Edit
-        </button>
-        <button hx-delete="/products/{{product_id}}" hx-target="#row-{{product_id}}" hx-swap="outerHTML swap:1s" hx-confirm="Delete this product?" class="btn btn-sm btn-outline-danger">
-            <i class="bi bi-trash"></i> Delete
-        </button>
-    </td>
+  <td><span class="badge bg-info">{{product_id}}</span></td>
+  <td>{{vmd_sncs}}</td>
+  <td>{{category_name}}</td>
+  <td>{{supplier_name}}</td>
+  <td><span class="badge bg-secondary">{{stock_qty}}</span></td>
+  <td>${{list_price}}</td>
+
+  <!-- ✅ ช่อง Actions ช่องเดียว -->
+  <td class="actions">
+
+    <!-- ✏ Edit (ใช้ htmx ตามของเดิม) -->
+    <button hx-get="/products/{{product_id}}/edit"
+            hx-target="#row-{{product_id}}"
+            hx-swap="outerHTML"
+            class="btn btn-sm btn-outline-primary me-1">
+      <i class="bi bi-pencil"></i> Edit
+    </button>
+
+        <!-- 🧊 BIM (มี/ไม่มี BIM ใช้ชุดเดียว) -->
+    {{#bim_code}}
+      <!-- ถ้ามี BIM แล้ว -->
+      <a href="/bim/{{product_id}}"
+         class="btn btn-sm btn-info me-1">
+        <i class="bi bi-cube"></i> View BIM
+      </a>
+
+      
+    {{/bim_code}}
+
+    {{^bim_code}}
+      <!-- ถ้ายังไม่มี BIM -->
+      <a href="/bim/{{product_id}}/add"
+         class="btn btn-sm btn-secondary me-1">
+        <i class="bi bi-cube"></i> Add BIM
+      </a>
+    {{/bim_code}}
+        <!-- 🗑 Delete (htmx ตามของเดิม) -->
+    <button hx-delete="/products/{{product_id}}"
+            hx-target="#row-{{product_id}}"
+            hx-swap="outerHTML swap:1s"
+            hx-confirm="Delete this product?"
+            class="btn btn-sm btn-outline-danger">
+      <i class="bi bi-trash"></i> Delete
+    </button>
+
+  </td>
 </tr>

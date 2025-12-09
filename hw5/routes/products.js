@@ -22,6 +22,7 @@ app.get(['/', '/index'], function (req, res) {
             p.supplier_id,
             s.company_name as supplier_name,
             p.list_price,
+            p.bim_code,
             p.stock_qty
         FROM PRODUCT p
         LEFT JOIN CATEGORY c ON p.category_id = c.category_id

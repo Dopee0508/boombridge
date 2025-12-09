@@ -9,6 +9,10 @@
         <a href="/suppliers"><i class="bi bi-building"></i> Suppliers</a>
         <a href="/categories"><i class="bi bi-tags"></i> Categories</a>
         <a href="/products"><i class="bi bi-box-seam"></i> Products</a>
+
+        <!-- แก้ตรงนี้ -->
+        <a href="/bim"><i class="bi bi-layers"></i> BIM Objects</a>
+
         <a href="/orders"><i class="bi bi-receipt"></i> Orders</a>
         <a href="/order_details"><i class="bi bi-list-check"></i> Order Details</a>
     </nav>

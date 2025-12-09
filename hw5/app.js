@@ -1,5 +1,6 @@
 // app_simple.js - 簡化版本
 const express = require('express');
+const path = require('path');   
 const db = require('mysql2');
 const session = require('express-session');
 const configs = require('./config');
@@ -34,6 +35,10 @@ app.set('views', __dirname + '/views');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));  // 靜態檔案
+app.use("/bim_thumbs", express.static("public/bim_thumbs"));
+app.use('/bim_files', express.static(            //  /bim_files/*
+  path.join(__dirname, 'public/bim_files')
+));
 app.use(session({
     secret: configs.session_secret,
     resave: false,
@@ -149,7 +154,8 @@ app.get('/logout', (req, res) => {
 
 // Dashboard
 app.get('/dashboard', requireLogin, (req, res) => {
-    const SQL = `
+    // นับจำนวน module ต่าง ๆ
+    const SQL_COUNTS = `
         SELECT 'Users' AS name, COUNT(*) AS count, 'people' AS icon, 'users' AS link FROM USER
         UNION ALL
         SELECT 'Suppliers' AS name, COUNT(*) AS count, 'building' AS icon, 'suppliers' AS link FROM SUPPLIER
@@ -162,7 +168,35 @@ app.get('/dashboard', requireLogin, (req, res) => {
         UNION ALL
         SELECT 'Order Details' AS name, COUNT(*) AS count, 'list-check' AS icon, 'order_details' AS link FROM ORDER_DETAIL;
     `;
-    doSQL(SQL, [], res, function(data) {
+
+    // นับจำนวนตาม status
+    const SQL_STATUS = `
+        SELECT status, COUNT(*) AS count
+        FROM \`ORDER\`
+        GROUP BY status;
+    `;
+
+    // mock recent activities ไว้ก่อน
+    const activities = [
+        {
+            icon: '🧾',
+            title: 'New order imported – Order #49305',
+            time: 'Just now'
+        },
+        {
+            icon: '👤',
+            title: 'User login – import@boombridge.com',
+            time: '5 minutes ago'
+        },
+        {
+            icon: '📦',
+            title: 'Products data updated',
+            time: 'Today'
+        }
+    ];
+
+    // 1) ดึง counts
+    doSQL(SQL_COUNTS, [], res, function (data) {
         const gradients = {
             'users': 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
             'suppliers': 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
@@ -179,23 +213,53 @@ app.get('/dashboard', requireLogin, (req, res) => {
             'orders': 'View Orders',
             'order_details': 'View Order Details'
         };
+
         const enrichedData = data.map(item => ({
             ...item,
             gradient: gradients[item.link] || 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)',
             linkText: linkTexts[item.link] || 'View/Manage'
         }));
-        
-        res.render('layout_full', { 
-            title: 'Dashboard',
-            counts: enrichedData,
-            userEmail: req.session.user.email,
-            partials: { 
-                sidebar: 'sidebar',
-                content: 'index/dashboard'
-            }
+
+        // 2) ดึง status
+        doSQL(SQL_STATUS, [], res, function (rows) {
+
+            const orderStatus = rows.map(r => {
+                let badgeClass = 'secondary';
+                if (r.status === 'Completed')   badgeClass = 'success';
+                else if (r.status === 'Processing') badgeClass = 'warning';
+
+                return {
+                    label: r.status,
+                    count: r.count,
+                    badgeClass
+                };
+            });
+
+            // เตรียมตัวเลขสำหรับกราฟ
+            let completedCount = 0;
+            let processingCount = 0;
+            orderStatus.forEach(s => {
+                if (s.label === 'Completed')  completedCount  = s.count;
+                if (s.label === 'Processing') processingCount = s.count;
+            });
+
+            res.render('layout_full', {
+                title: 'Dashboard',
+                counts: enrichedData,
+                activities: activities,
+                orderStatus: orderStatus,
+                completedCount: completedCount,     // << สำคัญ
+                processingCount: processingCount,   // << สำคัญ
+                userEmail: req.session.user.email,
+                partials: {
+                    sidebar: 'sidebar',
+                    content: 'index/dashboard'
+                }
+            });
         });
     });
 });
+
 
 // === CRUD Routes ===
 const userRouter = require('./routes/users');
@@ -213,6 +277,9 @@ app.use('/categories', requireLogin, categoryRouter);
 const productRouter = require('./routes/products');
 productRouter.doSQL = doSQL;
 app.use('/products', requireLogin, productRouter);
+const bimRouter = require("./routes/bim");
+app.use("/bim", bimRouter);
+
 
 const orderRouter = require('./routes/orders');
 orderRouter.doSQL = doSQL;
