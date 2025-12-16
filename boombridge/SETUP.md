@@ -34,7 +34,7 @@
 git clone https://github.com/your-username/BOOMBRIDGE_PROJECT.git
 
 # 2. 進入專案目錄
-cd BOOMBRIDGE_PROJECT/hw5
+cd BOOMBRIDGE_PROJECT/boombridge
 
 # 3. 使用 Docker Compose 啟動所有服務
 docker-compose up -d
@@ -64,8 +64,8 @@ docker-compose logs -f
 # 克隆專案
 git clone https://github.com/your-username/BOOMBRIDGE_PROJECT.git
 
-# 進入 hw5 目錄
-cd BOOMBRIDGE_PROJECT/hw5
+# 進入 boombridge 目錄
+cd BOOMBRIDGE_PROJECT/boombridge
 ```
 
 ### 2. 檢查必要檔案
@@ -396,8 +396,8 @@ Default admin account:
 # Clone the project
 git clone https://github.com/your-username/BOOMBRIDGE_PROJECT.git
 
-# Enter hw5 directory
-cd BOOMBRIDGE_PROJECT/hw5
+# Enter boombridge directory
+cd BOOMBRIDGE_PROJECT/boombridge
 ```
 
 ### 2. Check Required Files

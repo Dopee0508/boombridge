@@ -35,10 +35,10 @@ services:
     image: node:20-alpine
     container_name: BOOMBRIDGE_WEB
     restart: unless-stopped
-    working_dir: /app/hw5
+    working_dir: /app/boombridge
     volumes:
-      - .:/app/hw5
-      - /app/hw5/node_modules
+      - .:/app/boombridge
+      - /app/boombridge/node_modules
     ports:
       - "8080:80"
     networks:

@@ -9,7 +9,7 @@
 ### 專案結構
 
 ```
-hw5/
+boombridge/
 ├── docker-compose.yml  # Docker 服務配置
 ├── app.js              # 主應用程式
 ├── config.js           # 資料庫和 session 配置
@@ -79,10 +79,10 @@ docker-compose down
 #### 手動啟動
 ```bash
 # 使用 nodemon 啟動（自動重新載入）
-docker exec BOOMBRIDGE_WEB sh -c "cd /app/hw5 && nodemon -L app.js"
+docker exec BOOMBRIDGE_WEB sh -c "cd /app/boombridge && nodemon -L app.js"
 
 # 或直接啟動
-docker exec BOOMBRIDGE_WEB sh -c "cd /app/hw5 && node app.js"
+docker exec BOOMBRIDGE_WEB sh -c "cd /app/boombridge && node app.js"
 ```
 
 ### 技術棧
@@ -139,7 +139,7 @@ Role: Admin
 ### Project Structure
 
 ```
-hw5/
+boombridge/
 ├── docker-compose.yml  # Docker services configuration
 ├── app.js              # Main application
 ├── config.js           # Database and session config
@@ -209,10 +209,10 @@ docker-compose down
 #### Manual Start
 ```bash
 # Start with nodemon (auto-reload)
-docker exec BOOMBRIDGE_WEB sh -c "cd /app/hw5 && nodemon -L app.js"
+docker exec BOOMBRIDGE_WEB sh -c "cd /app/boombridge && nodemon -L app.js"
 
 # Or direct start
-docker exec BOOMBRIDGE_WEB sh -c "cd /app/hw5 && node app.js"
+docker exec BOOMBRIDGE_WEB sh -c "cd /app/boombridge && node app.js"
 ```
 
 ### Tech Stack

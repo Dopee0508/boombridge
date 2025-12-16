@@ -11,7 +11,7 @@
 ```bash
 # 1. 克隆專案
 git clone https://github.com/Dopee0508/boombridge.git
-cd boombridge/hw5
+cd boombridge/boombridge
 
 # 2. 啟動所有服務（自動初始化資料庫）
 docker-compose up -d
@@ -86,7 +86,7 @@ docker-compose up -d
 ## 📂 專案結構
 
 ```
-hw5/
+boombridge/
 ├── docker-compose.yml       # Docker 服務配置
 ├── package.json             # Node.js 依賴
 ├── app.js                   # 應用主程式
@@ -231,7 +231,7 @@ BOOMBRIDGE is a comprehensive web-based construction management system built wit
 ```bash
 # Clone the repository
 git clone https://github.com/Dopee0508/boombridge.git
-cd boombridge/hw5
+cd boombridge/boombridge
 
 # Start all services (auto-initialize database)
 docker-compose up -d
