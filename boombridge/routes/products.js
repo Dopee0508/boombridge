@@ -29,7 +29,7 @@ app.get(['/', '/index'], function (req, res) {
             p.category_id,
             c.name as category_name,
             p.supplier_id,
-            s.company_name as supplier_name,
+            s.name as supplier_name,
             p.list_price,
             p.bim_code,
             p.stock_qty
@@ -53,7 +53,7 @@ app.get(['/', '/index'], function (req, res) {
         dataSQL += ` LIMIT ${limit} OFFSET ${offset}`;
         doSQL(dataSQL, params, res, function (data) {
         let categoriesSQL = "SELECT category_id, name FROM CATEGORY";
-        let suppliersSQL = "SELECT supplier_id, company_name FROM SUPPLIER";
+        let suppliersSQL = "SELECT supplier_id, name as company_name FROM SUPPLIER";
         
         const pages = [];
         for (let i = 1; i <= totalPages; i++) {
@@ -99,7 +99,7 @@ app.post("/", function (req, res) {
                 p.category_id,
                 c.name as category_name,
                 p.supplier_id,
-                s.company_name as supplier_name,
+                s.name as supplier_name,
                 p.list_price,
                 p.stock_qty
             FROM PRODUCT p
@@ -119,7 +119,7 @@ app.get("/:ID/edit", requireAdmin, function (req, res) {
     
     doSQL(SQL, [req.params.ID], res, function (data) {
         let categoriesSQL = "SELECT category_id, name FROM CATEGORY";
-        let suppliersSQL = "SELECT supplier_id, company_name FROM SUPPLIER";
+        let suppliersSQL = "SELECT supplier_id, name as company_name FROM SUPPLIER";
         
         app.doSQL(categoriesSQL, [], res, function (categories) {
             app.doSQL(suppliersSQL, [], res, function (suppliers) {
@@ -166,7 +166,7 @@ app.put("/:ID", requireAdmin, function (req, res) {
                 p.category_id,
                 c.name as category_name,
                 p.supplier_id,
-                s.company_name as supplier_name,
+                s.name as supplier_name,
                 p.list_price,
                 p.stock_qty
             FROM PRODUCT p

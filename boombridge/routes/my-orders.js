@@ -87,7 +87,7 @@ router.get('/', function (req, res) {
                 orders.forEach(o => {
                     const detail = detailMap[o.order_id] || { item_count: 0, total_amount: 0 };
                     o.item_count = detail.item_count;
-                    o.total_amount = detail.total_amount.toFixed(2);
+                    o.total_amount = Number(detail.total_amount || 0).toFixed(2);
                 });
                 
                 res.render('layout_full', {

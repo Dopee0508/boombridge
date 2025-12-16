@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
     );
 
     const suppliersRaw = await q(
-      "SELECT supplier_id, company_name FROM SUPPLIER ORDER BY company_name"
+      "SELECT supplier_id, name FROM SUPPLIER ORDER BY name"
     );
 
     const categories = categoriesRaw.map((c) => ({
@@ -33,7 +33,7 @@ router.get("/", async (req, res) => {
 
     const suppliers = suppliersRaw.map((s) => ({
       supplier_id: s.supplier_id,
-      name: s.company_name,  // ใช้ใน dropdown และ list
+      name: s.name,  // 使用 name 欄位
       selected: supplier && supplier == String(s.supplier_id),
     }));
 
@@ -45,9 +45,9 @@ router.get("/", async (req, res) => {
         p.bim_code,
         p.bim_name,
         p.bim_file,
-        p.bim_thumbnail,         -- 👈 เพิ่ม thumbnail มาด้วย
+        p.bim_thumbnail,
         c.name AS category_name,
-        s.company_name AS supplier_name
+        s.name AS supplier_name
       FROM PRODUCT p
       LEFT JOIN CATEGORY c ON p.category_id = c.category_id
       LEFT JOIN SUPPLIER s ON p.supplier_id = s.supplier_id

@@ -1,4 +1,11 @@
 {
+  "name": "boombridge",
+  "version": "1.0.0",
+  "description": "BIM Materials E-commerce Platform",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "bootstrap": "^5.3.8",

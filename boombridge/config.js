@@ -1,8 +1,8 @@
 const config = {
   db: {
-    host: "172.17.0.2",
+    host: "db",
     user: "root",
-    password: "se2025",
+    password: "password",
     database: "BOOMBRIDGE",
     connectTimeout: 60000,
     charset: "utf8mb4"

@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
         c.quantity,
         p.vmd_sncs AS product_name,
         ROUND(p.list_price, 2) AS list_price,
-        s.company_name AS supplier_name,
+        s.name AS supplier_name,
         ROUND(c.quantity * p.list_price, 2) AS subtotal
        FROM CART c
        JOIN PRODUCT p ON c.product_id = p.product_id

@@ -95,10 +95,15 @@ CREATE TABLE PRODUCT (
     vmd_sncs VARCHAR(255) NOT NULL,
     unit VARCHAR(50),
     category_id INT,
+    supplier_id VARCHAR(100),
     avg_price DECIMAL(10,2),
+    list_price DECIMAL(10,2),
     std_dev DECIMAL(10,2),
     no_samples INT,
-    FOREIGN KEY (category_id) REFERENCES CATEGORY(category_id)
+    bim_code VARCHAR(100),
+    stock_qty INT DEFAULT 0,
+    FOREIGN KEY (category_id) REFERENCES CATEGORY(category_id),
+    FOREIGN KEY (supplier_id) REFERENCES SUPPLIER(supplier_id)
 ) COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `ORDER` (
@@ -160,7 +165,7 @@ FROM staging_companies
 WHERE company_id IS NOT NULL AND company_id != '';
 
 -- ETL 4.3: Processing PRODUCT
-INSERT INTO PRODUCT (product_id, vmd_sncs, unit, avg_price, std_dev, no_samples, category_id)
+INSERT INTO PRODUCT (product_id, vmd_sncs, unit, avg_price, list_price, std_dev, no_samples, category_id, stock_qty)
 SELECT
     m.material_id,
     CASE
@@ -171,6 +176,7 @@ SELECT
     END AS product_name,
     m.Unit,
     m.PriceAvg,
+    ROUND(m.PriceAvg * 1.2, 2) AS list_price,
     m.PriceStdev,
     m.NoSamples,
     (SELECT c.category_id FROM CATEGORY c WHERE c.name =
@@ -187,7 +193,8 @@ SELECT
             WHEN m.Item LIKE '%Adhesive%' THEN 'Adhesives'
             ELSE 'Other Materials'
         END
-    ) AS category_id
+    ) AS category_id,
+    FLOOR(RAND() * 100) + 10 AS stock_qty
 FROM staging_materials m
 WHERE m.material_id IS NOT NULL AND m.material_id != ''
 AND m.PriceAvg IS NOT NULL AND m.PriceAvg > 0;

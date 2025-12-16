@@ -15,13 +15,13 @@ app.get(['/', '/index'], function (req, res) {
     const search = req.query.search || '';
     
     let countSQL = "SELECT COUNT(*) as total FROM SUPPLIER";
-    let dataSQL = "SELECT supplier_id, company_name, contact_info FROM SUPPLIER";
+    let dataSQL = "SELECT supplier_id, name as company_name, email as contact_info, phone FROM SUPPLIER";
     let params = [];
     
     if (search) {
         const searchPattern = `%${search}%`;
-        countSQL += " WHERE supplier_id LIKE ? OR company_name LIKE ? OR contact_info LIKE ?";
-        dataSQL += " WHERE supplier_id LIKE ? OR company_name LIKE ? OR contact_info LIKE ?";
+        countSQL += " WHERE supplier_id LIKE ? OR name LIKE ? OR email LIKE ?";
+        dataSQL += " WHERE supplier_id LIKE ? OR name LIKE ? OR email LIKE ?";
         params = [searchPattern, searchPattern, searchPattern];
     }
     
@@ -59,21 +59,23 @@ app.get(['/', '/index'], function (req, res) {
 
 // === C (Create): 處理新增供應商請求 ===
 app.post("/", function (req, res) {
+    // 接收 company_name 和 contact_info (來自前端表單)
     const { supplier_id, company_name, contact_info } = req.body;
-    let SQL = "INSERT INTO SUPPLIER (supplier_id, company_name, contact_info) VALUES (?, ?, ?)";
+    let SQL = "INSERT INTO SUPPLIER (supplier_id, name, email, phone) VALUES (?, ?, ?, ?)";
 
-    doSQL(SQL, [supplier_id, company_name, contact_info], res, function (data) {
+    doSQL(SQL, [supplier_id, company_name, contact_info, ''], res, function (data) {
         res.render('suppliers/row', {
             supplier_id: supplier_id,
             company_name: company_name,
-            contact_info: contact_info
+            contact_info: contact_info,
+            phone: ''
         });
     });
 });
 
 // === U (Update - Form): 獲取編輯表單 (GET) ===
 app.get("/:ID/edit", function (req, res) {
-    let SQL = "SELECT supplier_id, company_name, contact_info FROM SUPPLIER WHERE supplier_id = ?";
+    let SQL = "SELECT supplier_id, name as company_name, email as contact_info, phone FROM SUPPLIER WHERE supplier_id = ?";
     
     doSQL(SQL, [req.params.ID], res, function (data) {
         if (data.length > 0) {
@@ -92,18 +94,14 @@ app.put("/:ID", function (req, res) {
     const supplier_id = req.params.ID;
 
     let showRow = function(id) {
-        let SQL = "SELECT supplier_id, company_name, contact_info FROM SUPPLIER WHERE supplier_id = ?";
+        let SQL = "SELECT supplier_id, name as company_name, email as contact_info, phone FROM SUPPLIER WHERE supplier_id = ?";
         app.doSQL(SQL, [id], res, function (data) {
-            res.render('suppliers/row', { 
-                supplier_id: data[0].supplier_id,
-                company_name: data[0].company_name,
-                contact_info: data[0].contact_info
-            });
+            res.render('suppliers/row', data[0]);
         });
     };
 
     if (action === "update") {
-        let SQL = "UPDATE SUPPLIER SET company_name = ?, contact_info = ? WHERE supplier_id = ?";
+        let SQL = "UPDATE SUPPLIER SET name = ?, email = ? WHERE supplier_id = ?";
         doSQL(SQL, [company_name, contact_info, supplier_id], res, function (data) {
             showRow(supplier_id); 
         });
