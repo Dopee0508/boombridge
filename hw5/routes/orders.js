@@ -170,10 +170,16 @@ app.put("/:ID", function (req, res) {
 });
 
 app.delete("/:ID", function (req, res) {
-    let SQL = "DELETE FROM \`ORDER\` WHERE order_id = ?";
+    // 先刪除訂單明細
+    let deleteDetailsSQL = "DELETE FROM ORDER_DETAIL WHERE order_id = ?";
     
-    doSQL(SQL, [req.params.ID], res, function (data) {
-        res.send("OK");
+    doSQL(deleteDetailsSQL, [req.params.ID], res, function (detailsResult) {
+        // 再刪除訂單
+        let deleteOrderSQL = "DELETE FROM `ORDER` WHERE order_id = ?";
+        
+        doSQL(deleteOrderSQL, [req.params.ID], res, function (data) {
+            res.status(200).send("");
+        });
     });
 });
 

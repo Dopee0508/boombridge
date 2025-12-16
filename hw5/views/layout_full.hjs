@@ -179,6 +179,46 @@
             color: var(--text-dark);
             margin-bottom: 1.5rem;
         }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .user-actions .icon-btn {
+            position: relative;
+            color: #7f8c8d;
+            font-size: 1.4rem;
+            text-decoration: none;
+            transition: color 0.2s;
+            padding: 0.5rem;
+        }
+        
+        .user-actions .icon-btn:hover {
+            color: #3d4f5d;
+        }
+        
+        .user-actions .badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .user-actions .badge:empty {
+            display: none;
+        }
+        
+        .user-actions .user-info {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
     </style>
     
     <script src="/bootstrap.bundle.min.js"></script>
@@ -192,7 +232,16 @@
     <div class="main-content">
         <header class="top-bar d-flex justify-content-between align-items-center">
             <h1 class="h5 m-0 text-secondary">{{title}}</h1>
-            <span class="text-secondary">Welcome, {{userEmail}}!</span>
+            <div class="user-actions">
+                <a href="/cart" class="icon-btn" title="購物車">
+                    <i class="bi bi-cart-fill"></i>
+                    <span class="badge" id="cart-badge" hx-get="/cart/count" hx-trigger="load, cartUpdated from:body" hx-swap="innerHTML"></span>
+                </a>
+                <a href="/profile" class="icon-btn" title="個人資料">
+                    <i class="bi bi-person-circle"></i>
+                </a>
+                <span class="user-info">{{userEmail}}</span>
+            </div>
         </header>
 
         <div id="toast"></div>

@@ -1,0 +1,160 @@
+<div class="container-fluid py-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <h2 class="mb-3">
+        <i class="bi bi-cart-fill text-primary"></i>
+        Shopping Cart
+        {{#hasItems}}
+        <span class="badge bg-primary">{{itemCount}} items</span>
+        {{/hasItems}}
+      </h2>
+    </div>
+  </div>
+
+  {{#hasItems}}
+  <div class="row">
+    <div class="col-lg-8">
+      <!-- Alert Container for Checkout Messages -->
+      <div id="checkout-alert"></div>
+      
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Product</th>
+                  <th>Supplier</th>
+                  <th>Price</th>
+                  <th style="width: 150px;">Quantity</th>
+                  <th>Subtotal</th>
+                  <th style="width: 80px;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#cartItems}}
+                <tr>
+                  <td>
+                    <strong>{{product_name}}</strong>
+                    <br>
+                    <small class="text-muted">ID: {{product_id}}</small>
+                  </td>
+                  <td>{{supplier_name}}</td>
+                  <td>${{list_price}}</td>
+                  <td>
+                    <div class="input-group input-group-sm">
+                      <button class="btn btn-outline-secondary" type="button"
+                        hx-post="/cart/update/{{cart_id}}" 
+                        hx-vals='{"quantity": {{quantityMinusOne}}}'
+                        hx-target="body"
+                        hx-swap="outerHTML"
+                        {{#isOne}}disabled{{/isOne}}>
+                        <i class="bi bi-dash"></i>
+                      </button>
+                      <input type="number" class="form-control text-center" value="{{quantity}}" 
+                        min="1" style="max-width: 60px;" readonly>
+                      <button class="btn btn-outline-secondary" type="button"
+                        hx-post="/cart/update/{{cart_id}}" 
+                        hx-vals='{"quantity": {{quantityPlusOne}}}'
+                        hx-target="body"
+                        hx-swap="outerHTML">
+                        <i class="bi bi-plus"></i>
+                      </button>
+                    </div>
+                  </td>
+                  <td><strong>${{subtotal}}</strong></td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-danger"
+                      hx-delete="/cart/{{cart_id}}"
+                      hx-confirm="Remove this item from cart?"
+                      hx-target="body"
+                      hx-swap="outerHTML">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                {{/cartItems}}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+            <a href="/products" class="btn btn-outline-secondary">
+              <i class="bi bi-arrow-left"></i> Continue Shopping
+            </a>
+            <button class="btn btn-outline-danger"
+              hx-post="/cart/clear"
+              hx-confirm="Clear all items from cart?">
+              <i class="bi bi-trash"></i> Clear Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card shadow-sm sticky-top" style="top: 20px;">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">
+            <i class="bi bi-calculator"></i> Order Summary
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-2">
+            <span>Items:</span>
+            <span>{{itemCount}}</span>
+          </div>
+          <div class="d-flex justify-content-between mb-3 pb-3 border-bottom">
+            <span>Subtotal:</span>
+            <span><strong>${{total}}</strong></span>
+          </div>
+          
+          <div class="d-flex justify-content-between mb-3 pb-3 border-bottom">
+            <span class="h5 mb-0">Total:</span>
+            <span class="h5 mb-0 text-primary"><strong>${{total}}</strong></span>
+          </div>
+
+          <button class="btn btn-primary w-100 mb-2"
+            hx-post="/cart/checkout"
+            hx-target="#checkout-alert"
+            hx-swap="innerHTML"
+            hx-confirm="Proceed to checkout and create order?">
+            <i class="bi bi-credit-card"></i> Proceed to Checkout
+          </button>
+
+          <div class="alert alert-info mb-0 mt-3">
+            <small>
+              <i class="bi bi-info-circle"></i>
+              Your order will be processed and you can track it in the Orders section.
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/hasItems}}
+
+  {{^hasItems}}
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow-sm text-center py-5">
+        <div class="card-body">
+          <i class="bi bi-cart-x" style="font-size: 5rem; color: #dee2e6;"></i>
+          <h3 class="mt-4 mb-3">Your cart is empty</h3>
+          <p class="text-muted mb-4">Start adding some products to your cart!</p>
+          <a href="/products" class="btn btn-primary">
+            <i class="bi bi-shop"></i> Browse Products
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/hasItems}}
+</div>
+
+<style>
+.sticky-top {
+  position: -webkit-sticky;
+  position: sticky;
+}
+</style>

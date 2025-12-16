@@ -3,6 +3,9 @@
         <h2><i class="bi bi-box-seam"></i> Product Management</h2>
     </div>
 
+    <!-- Alert Container for Add to Cart Messages -->
+    <div id="alert-container" style="position: relative; z-index: 1000;"></div>
+
     <!-- Search Bar -->
     <div class="card shadow-sm mb-3">
         <div class="card-body">

@@ -1,0 +1,89 @@
+<div class="container-fluid py-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <h2 class="mb-3">
+        <i class="bi bi-person-circle text-primary"></i>
+        My Profile
+      </h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0"><i class="bi bi-person"></i> User Information</h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="text-muted">User ID:</label>
+            <div class="fs-5">{{userId}}</div>
+          </div>
+          <div class="mb-3">
+            <label class="text-muted">Name:</label>
+            <div class="fs-5">{{userName}}</div>
+          </div>
+          <div class="mb-3">
+            <label class="text-muted">Email:</label>
+            <div class="fs-5">{{userEmailDisplay}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0"><i class="bi bi-bar-chart"></i> Statistics</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+            <div>
+              <i class="bi bi-cart text-primary fs-3"></i>
+              <span class="ms-2">Cart Items</span>
+            </div>
+            <span class="badge bg-primary fs-5">{{cartItemCount}}</span>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+            <div>
+              <i class="bi bi-box-seam text-success fs-3"></i>
+              <span class="ms-2">Total Orders</span>
+            </div>
+            <span class="badge bg-success fs-5">{{totalOrders}}</span>
+          </div>
+          <div class="mt-4">
+            <a href="/cart" class="btn btn-primary w-100 mb-2">
+              <i class="bi bi-cart"></i> View Shopping Cart
+            </a>
+            <a href="/orders" class="btn btn-outline-primary w-100">
+              <i class="bi bi-box-seam"></i> View Orders
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0"><i class="bi bi-gear"></i> Quick Actions</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2 d-md-flex">
+            <a href="/products" class="btn btn-outline-primary">
+              <i class="bi bi-box-seam"></i> Browse Products
+            </a>
+            <a href="/cart" class="btn btn-outline-success">
+              <i class="bi bi-cart"></i> My Cart
+            </a>
+            <a href="/orders" class="btn btn-outline-info">
+              <i class="bi bi-clock-history"></i> Order History
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

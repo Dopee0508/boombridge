@@ -280,6 +280,11 @@ app.use('/products', requireLogin, productRouter);
 const bimRouter = require("./routes/bim");
 app.use("/bim", bimRouter);
 
+const cartRouter = require('./routes/cart');
+app.use('/cart', requireLogin, cartRouter);
+
+const profileRouter = require('./routes/profile');
+app.use('/profile', requireLogin, profileRouter);
 
 const orderRouter = require('./routes/orders');
 orderRouter.doSQL = doSQL;
