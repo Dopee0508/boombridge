@@ -33,12 +33,12 @@
                     <div class="mb-4">
                         <label for="role" class="form-label" style="font-weight: 500; color: #475569; font-size: 0.875rem;">Account Type</label>
                         <select class="form-select" id="role" name="role" required style="border-radius: 8px; padding: 0.75rem; border: 2px solid #e2e8f0; font-size: 0.95rem;">
-                            <option value="user" selected>一般用戶 (User)</option>
-                            <option value="admin">管理員 (Admin)</option>
+                            <option value="user" selected>User</option>
+                            <option value="admin">Administrator</option>
                         </select>
                         <small class="text-muted d-block mt-1" style="font-size: 0.8rem;">
-                            <strong>一般用戶:</strong> 可瀏覽產品、加入購物車、建立訂單<br>
-                            <strong>管理員:</strong> 擁有完整管理權限，可編輯所有資料
+                            <strong>User:</strong> Can browse products, add to cart, and create orders<br>
+                            <strong>Administrator:</strong> Full management access to all data and operations
                         </small>
                     </div>
                     

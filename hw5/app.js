@@ -332,9 +332,15 @@ app.use('/cart', requireLogin, cartRouter);
 const profileRouter = require('./routes/profile');
 app.use('/profile', requireLogin, profileRouter);
 
+// 個人訂單路由（所有用戶可見）
+const myOrdersRouter = require('./routes/my-orders');
+myOrdersRouter.doSQL = doSQL;
+app.use('/my-orders', requireLogin, myOrdersRouter);
+
+// 所有訂單管理路由（僅管理員）
 const orderRouter = require('./routes/orders');
 orderRouter.doSQL = doSQL;
-app.use('/orders', requireLogin, orderRouter);
+app.use('/orders', requireLogin, requireAdmin, orderRouter);
 
 const orderDetailRouter = require('./routes/order_details');
 orderDetailRouter.doSQL = doSQL;

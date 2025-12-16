@@ -1,0 +1,98 @@
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0"><i class="bi bi-receipt"></i> My Orders</h2>
+    </div>
+
+    {{#orders.length}}
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Order Date</th>
+                            <th>Status</th>
+                            <th>Items</th>
+                            <th>Total Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#orders}}
+                        <tr>
+                            <td><span class="badge bg-info">{{order_id}}</span></td>
+                            <td>{{order_date}}</td>
+                            <td>
+                                {{#status}}
+                                <span class="badge bg-secondary">{{status}}</span>
+                                {{/status}}
+                                {{^status}}
+                                <span class="badge bg-secondary">N/A</span>
+                                {{/status}}
+                            </td>
+                            <td><span class="badge bg-secondary">{{item_count}} items</span></td>
+                            <td><strong>${{total_amount}}</strong></td>
+                            <td>
+                                <a href="/my-orders/{{order_id}}" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-eye"></i> View Details
+                                </a>
+                            </td>
+                        </tr>
+                        {{/orders}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    {{#pages.length}}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {{#hasPrevious}}
+            <li class="page-item">
+                <a class="page-link" href="/my-orders?page={{previousPage}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {{/hasPrevious}}
+            {{^hasPrevious}}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo;</span>
+            </li>
+            {{/hasPrevious}}
+
+            {{#pages}}
+            <li class="page-item {{#active}}active{{/active}}">
+                <a class="page-link" href="/my-orders?page={{number}}">{{number}}</a>
+            </li>
+            {{/pages}}
+
+            {{#hasNext}}
+            <li class="page-item">
+                <a class="page-link" href="/my-orders?page={{nextPage}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {{/hasNext}}
+            {{^hasNext}}
+            <li class="page-item disabled">
+                <span class="page-link">&raquo;</span>
+            </li>
+            {{/hasNext}}
+        </ul>
+    </nav>
+    {{/pages.length}}
+    {{/orders.length}}
+
+    {{^orders.length}}
+    <div class="alert alert-info text-center">
+        <i class="bi bi-inbox"></i> You haven't placed any orders yet.
+        <br>
+        <a href="/products" class="btn btn-primary mt-3">
+            <i class="bi bi-box-seam"></i> Browse Products
+        </a>
+    </div>
+    {{/orders.length}}
+</div>

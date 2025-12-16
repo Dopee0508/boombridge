@@ -55,7 +55,7 @@
             <a href="/cart" class="btn btn-primary w-100 mb-2">
               <i class="bi bi-cart"></i> View Shopping Cart
             </a>
-            <a href="/orders" class="btn btn-outline-primary w-100">
+            <a href="/my-orders" class="btn btn-outline-primary w-100">
               <i class="bi bi-box-seam"></i> View Orders
             </a>
           </div>
@@ -78,7 +78,7 @@
             <a href="/cart" class="btn btn-outline-success">
               <i class="bi bi-cart"></i> My Cart
             </a>
-            <a href="/orders" class="btn btn-outline-info">
+            <a href="/my-orders" class="btn btn-outline-info">
               <i class="bi bi-clock-history"></i> Order History
             </a>
           </div>

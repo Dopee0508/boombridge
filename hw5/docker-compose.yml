@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  db:
+    image: mysql:9.4.0
+    container_name: boombridge
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: BOOMBRIDGE
+      MYSQL_USER: boombridge
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      # Mount SQL initialization files
+      - ./sql:/docker-entrypoint-initdb.d
+      # Mount TSV data files
+      - ./companies.tsv:/var/lib/mysql-files/companies.tsv
+      - ./materials.tsv:/var/lib/mysql-files/materials.tsv
+      - ./transactions.tsv:/var/lib/mysql-files/transactions.tsv
+      # Persist database data
+      - mysql_data:/var/lib/mysql
+    networks:
+      - boombridge_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Node.js Application
+  web:
+    image: node:20-alpine
+    container_name: BOOMBRIDGE_WEB
+    restart: unless-stopped
+    working_dir: /app/hw5
+    volumes:
+      - .:/app/hw5
+      - /app/hw5/node_modules
+    ports:
+      - "8080:80"
+    networks:
+      - boombridge_network
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "npm install && npm start"
+    environment:
+      NODE_ENV: production
+
+networks:
+  boombridge_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local

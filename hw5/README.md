@@ -1,6 +1,223 @@
 # BOOMBRIDGE Construction Management System
 
-[中文版](#中文版) | [English Version](#english-version)
+🚀 **快速開始** | [詳細文檔 SETUP.md](SETUP.md) | [English Version](#english-version)
+
+---
+
+## 🎯 一鍵啟動
+
+### 從 GitHub 下載並運行
+
+```bash
+# 1. 克隆專案
+git clone https://github.com/Dopee0508/boombridge.git
+cd boombridge/hw5
+
+# 2. 啟動所有服務（自動初始化資料庫）
+docker-compose up -d
+
+# 3. 等待啟動完成（約 30-60 秒）
+docker-compose logs -f
+```
+
+**完成！** 打開瀏覽器訪問：**http://localhost:8080**
+
+預設管理員帳號：
+- **Email**: import@boombridge.com
+- **Password**: password
+
+---
+
+## 📋 系統簡介
+
+BOOMBRIDGE 是一個全功能的建築管理系統，基於 Node.js、Express 和 MySQL 構建。
+
+### ✨ 核心功能
+- 🛒 **購物車系統**: 產品加入購物車、結帳功能
+- 👤 **角色權限管理**: Admin/User 雙角色系統
+- 📦 **訂單管理**: 個人訂單追蹤（My Orders）和全局訂單管理（All Orders）
+- 🏢 **供應商管理**: 供應商資料完整 CRUD
+- 📑 **產品目錄**: 產品分類、搜索、分頁
+- 🔐 **認證系統**: 登入、註冊、會話管理
+- 📊 **Dashboard**: 系統概覽和統計
+- 🎨 **現代化 UI**: Bootstrap 5 + HTMX 動態交互
+
+### 🛠️ 技術棧
+- **後端**: Node.js + Express 5.1.0
+- **資料庫**: MySQL 9.4.0
+- **模板引擎**: HJS (Hogan.js) 0.0.6
+- **前端**: Bootstrap 5.3.8, HTMX 2.0.8, Bootstrap Icons
+- **會話管理**: express-session
+- **容器化**: Docker + Docker Compose
+
+---
+
+## 📦 使用 Docker Compose（推薦）
+
+### 啟動服務
+
+```bash
+# 啟動所有服務（MySQL + Node.js）
+docker-compose up -d
+
+# 查看日誌
+docker-compose logs -f
+
+# 停止服務
+docker-compose down
+
+# 完全重置（包含資料庫）
+docker-compose down -v
+docker-compose up -d
+```
+
+### 服務說明
+
+**docker-compose.yml 會自動：**
+1. ✅ 啟動 MySQL 9.4.0 容器（端口 3306）
+2. ✅ 啟動 Node.js 20 應用容器（端口 8080）
+3. ✅ 自動執行資料庫初始化腳本 `sql/01_init_database.sql`
+4. ✅ 自動載入測試資料（companies, materials, transactions）
+5. ✅ 創建管理員帳號和購物車表
+6. ✅ 安裝 npm 依賴並啟動應用
+
+---
+
+## 📂 專案結構
+
+```
+hw5/
+├── docker-compose.yml       # Docker 服務配置
+├── package.json             # Node.js 依賴
+├── app.js                   # 應用主程式
+├── config.js               # 資料庫配置
+├── helpers.js              # 工具函數
+├── sql/
+│   └── 01_init_database.sql # 資料庫初始化腳本（自動執行）
+├── routes/                  # 路由模組
+│   ├── cart.js             # 購物車
+│   ├── my-orders.js        # 個人訂單
+│   ├── orders.js           # 全局訂單（Admin）
+│   ├── profile.js          # 個人資料
+│   ├── products.js         # 產品管理
+│   ├── suppliers.js        # 供應商
+│   ├── categories.js       # 分類
+│   └── users.js            # 用戶管理
+├── views/                   # HJS 模板
+├── public/                  # 靜態資源
+├── companies.tsv           # 供應商資料
+├── materials.tsv           # 產品資料
+├── transactions.tsv        # 交易資料
+└── SETUP.md               # 詳細安裝文檔
+```
+
+---
+
+## 🔑 預設帳號
+
+### 管理員帳號（自動創建）
+- **Email**: import@boombridge.com
+- **Password**: password
+- **Role**: Admin
+
+### 註冊新帳號
+訪問 http://localhost:8080 點擊「Register」即可註冊。
+
+---
+
+## 🎭 功能權限
+
+### 一般用戶（User）
+- ✅ Dashboard
+- ✅ Profile（個人資料）
+- ✅ Products（瀏覽產品）
+- ✅ BIM Objects
+- ✅ Shopping Cart（購物車）
+- ✅ My Orders（個人訂單）
+
+### 管理員（Admin）
+- ✅ 所有一般用戶功能
+- ✅ All Orders（所有訂單管理）
+- ✅ User Management（用戶管理）
+- ✅ Suppliers（供應商管理）
+- ✅ Categories（分類管理）
+- ✅ Order Details（訂單明細）
+- ✅ Product Edit/Delete（產品編輯/刪除）
+
+---
+
+## 📝 資料庫說明
+
+### 自動初始化
+`sql/01_init_database.sql` 會在容器首次啟動時自動執行：
+
+1. **創建資料庫**: BOOMBRIDGE（UTF8MB4）
+2. **載入資料**: 從 TSV 檔案導入供應商、產品、交易資料
+3. **建立表格**: USER, PRODUCT, SUPPLIER, CATEGORY, ORDER, ORDER_DETAIL, CART
+4. **初始數據**: 創建分類、管理員帳號、測試訂單
+5. **索引優化**: 為常用查詢建立索引
+
+### 表格結構
+- **USER**: 用戶（含 role: admin/user）
+- **SUPPLIER**: 供應商
+- **CATEGORY**: 產品分類
+- **PRODUCT**: 產品（含分類、價格）
+- **ORDER**: 訂單（含用戶、日期、狀態）
+- **ORDER_DETAIL**: 訂單明細（複合主鍵：order_id + product_id）
+- **CART**: 購物車（含數量、加入日期）
+
+---
+
+## 🐛 常見問題
+
+### 1. 端口被占用
+```bash
+# 修改 docker-compose.yml 中的端口映射
+ports:
+  - "8081:80"  # 改用 8081
+```
+
+### 2. 資料庫連接失敗
+```bash
+# 等待資料庫完全啟動（30 秒）
+docker-compose logs db
+
+# 重啟 Web 服務
+docker-compose restart web
+```
+
+### 3. 代碼修改未生效
+```bash
+# 容器內使用 nodemon，會自動重啟
+# 或手動重啟
+docker-compose restart web
+```
+
+### 4. 完全重置
+```bash
+# 刪除所有容器和資料卷
+docker-compose down -v
+
+# 重新啟動
+docker-compose up -d
+```
+
+---
+
+## 🔄 開發模式
+
+### 本地開發（不使用 Docker）
+
+```bash
+# 安裝依賴
+npm install
+
+# 確保 MySQL 運行在 localhost:3306
+# 修改 config.js 中的連接設定
+
+# 啟動應用
+npm start
+```
 
 ---
 
@@ -9,44 +226,47 @@
 ### Overview
 BOOMBRIDGE is a comprehensive web-based construction management system built with Node.js, Express, and MySQL. It provides complete CRUD operations for managing users, suppliers, categories, products, orders, and order details.
 
+### Quick Start with Docker Compose
+
+```bash
+# Clone the repository
+git clone https://github.com/Dopee0508/boombridge.git
+cd boombridge/hw5
+
+# Start all services (auto-initialize database)
+docker-compose up -d
+
+# Access at http://localhost:8080
+```
+
+**Default Admin Account:**
+- Email: import@boombridge.com
+- Password: password
+
 ### Features
-- **User Management**: Create, read, update, and delete user accounts with authentication
-- **Supplier Management**: Manage supplier information and contacts
-- **Category Management**: Organize products into categories
-- **Product Management**: Track product inventory with pricing and stock quantities
-- **Order Management**: Process and manage customer orders
-- **Order Details**: Detailed tracking of order line items
-- **Search & Pagination**: Built-in search functionality with page navigation
-- **Authentication System**: Secure login and registration with session management
-- **Responsive UI**: Modern Bootstrap 5 interface with HTMX for dynamic interactions
+- 🛒 **Shopping Cart**: Add to cart, checkout functionality
+- 👤 **Role-Based Access Control**: Admin/User dual-role system
+- 📦 **Order Management**: Personal orders (My Orders) and global orders (All Orders)
+- 🏢 **Supplier Management**: Complete CRUD for supplier data
+- 📑 **Product Catalog**: Product categories, search, pagination
+- 🔐 **Authentication**: Login, registration, session management
+- 📊 **Dashboard**: System overview and statistics
+- 🎨 **Modern UI**: Bootstrap 5 + HTMX dynamic interactions
 
 ### Technology Stack
-- **Backend**: Node.js with Express 5.1.0
-- **Database**: MySQL 2 (version 3.15.3)
+- **Backend**: Node.js + Express 5.1.0
+- **Database**: MySQL 9.4.0
 - **Template Engine**: HJS (Hogan.js) 0.0.6
-- **Frontend**: Bootstrap 5, HTMX, Bootstrap Icons
-- **Session Management**: express-session
-- **Containerization**: Docker
+- **Frontend**: Bootstrap 5.3.8, HTMX 2.0.8
+- **Session**: express-session
+- **Container**: Docker + Docker Compose
 
-### Installation
+For detailed documentation, see [SETUP.md](SETUP.md)
 
-#### Prerequisites
-- Docker and Docker Compose
-- Node.js (if running without Docker)
+---
 
-#### Using Docker
-1. Clone the repository:
-```bash
-git clone https://github.com/Dopee0508/boombridge.git
-cd boombridge
-```
-
-2. Start the Docker containers:
-```bash
-docker-compose up -d
-```
-
-3. Access the application at `http://localhost:8080`
+## 📄 License
+Educational purposes only.
 
 #### Manual Setup
 1. Install dependencies:

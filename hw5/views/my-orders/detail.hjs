@@ -1,0 +1,78 @@
+<div class="container-fluid p-4">
+    <div class="mb-4">
+        <a href="/my-orders" class="btn btn-outline-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> Back to My Orders
+        </a>
+        <h2><i class="bi bi-receipt-cutoff"></i> Order #{{order.order_id}}</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> Order Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="text-muted small">Order ID</label>
+                        <div><strong>{{order.order_id}}</strong></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Order Date</label>
+                        <div>{{order.order_date}}</div>
+                    </div>
+                    <div class="mb-0">
+                        <label class="text-muted small">Status</label>
+                        <div>
+                            <span class="badge bg-secondary">{{order.status}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-list-ul"></i> Order Items</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Product</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-end">Unit Price</th>
+                                    <th class="text-end">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#orderDetails}}
+                                <tr>
+                                    <td>
+                                        <strong>{{product_name}}</strong>
+                                        <br>
+                                        <small class="text-muted">Product ID: {{product_id}}</small>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-secondary">{{quantity}}</span>
+                                    </td>
+                                    <td class="text-end">${{unit_price}}</td>
+                                    <td class="text-end"><strong>${{subtotal}}</strong></td>
+                                </tr>
+                                {{/orderDetails}}
+                            </tbody>
+                            <tfoot class="table-light">
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                                    <td class="text-end"><h5 class="mb-0 text-primary">${{total}}</h5></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

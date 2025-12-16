@@ -10,17 +10,19 @@
     </div>
 
     <nav class="flex-grow-1">
-        <!-- 所有用戶都能看到 -->
+        <!-- All Users -->
         <a href="/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
         <a href="/profile"><i class="bi bi-person-circle"></i> Profile</a>
         <a href="/products"><i class="bi bi-box-seam"></i> Products</a>
+        <a href="/bim"><i class="bi bi-layers"></i> BIM Objects</a>
         <a href="/cart"><i class="bi bi-cart3"></i> Shopping Cart</a>
-        <a href="/orders"><i class="bi bi-receipt"></i> My Orders</a>
+        <a href="/my-orders"><i class="bi bi-receipt"></i> My Orders</a>
         
         <!-- 只有管理員能看到的管理功能 -->
         {{#isAdmin}}
         <hr class="bg-white-50 my-2">
         <small class="text-white-50 ps-3 d-block mb-2">ADMIN ONLY</small>
+        <a href="/orders"><i class="bi bi-clipboard-data"></i> All Orders</a>
         <a href="/users"><i class="bi bi-people"></i> User Management</a>
         <a href="/suppliers"><i class="bi bi-building"></i> Suppliers</a>
         <a href="/categories"><i class="bi bi-tags"></i> Categories</a>
