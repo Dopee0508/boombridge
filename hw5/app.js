@@ -46,6 +46,20 @@ app.use(session({
     cookie: { maxAge: 60000 * 30 }
 }));
 
+// 中間件：自動添加 role 資訊到所有 render
+app.use((req, res, next) => {
+    const originalRender = res.render;
+    res.render = function(view, options, callback) {
+        options = options || {};
+        if (req.session.user) {
+            options.userRole = req.session.user.role;
+            options.isAdmin = req.session.user.role === 'admin';
+        }
+        originalRender.call(this, view, options, callback);
+    };
+    next();
+});
+
 // 登入驗證
 function requireLogin(req, res, next) {
     if (req.session.user) {
@@ -57,6 +71,25 @@ function requireLogin(req, res, next) {
         } else {
             res.redirect('/login');
         }
+    }
+}
+
+// 權限檢查中間件：只有管理員才能執行
+function requireAdmin(req, res, next) {
+    if (!req.session.user) {
+        if (req.get("HX-Request")) {
+            res.set("HX-Redirect", "/login");
+            res.end();
+        } else {
+            res.redirect('/login');
+        }
+        return;
+    }
+    
+    if (req.session.user.role === 'admin') {
+        next();
+    } else {
+        res.status(403).send('<div class="alert alert-danger m-3"><i class="bi bi-shield-x me-2"></i>Access Denied: Admin privileges required</div>');
     }
 }
 
@@ -81,17 +114,22 @@ app.post('/login', (req, res) => {
     
     // Demo 帳號
     if (email === 'import@boombridge.com' && password === 'password') {
-        req.session.user = { id: 1, email: email };
+        req.session.user = { id: 1, email: email, role: 'admin' };
         res.set('HX-Redirect', '/dashboard'); 
         res.end();
         return;
     }
     
-    // 檢查資料庫中的用戶
-    const SQL = "SELECT user_id, name, email, password_hash FROM USER WHERE email = ?";
+    // 檢查資料庫中的用戶，包含 role
+    const SQL = "SELECT user_id, name, email, password_hash, role FROM USER WHERE email = ?";
     doSQL(SQL, [email], res, function(data) {
         if (data.length > 0 && data[0].password_hash === password) {
-            req.session.user = { id: data[0].user_id, email: data[0].email, name: data[0].name };
+            req.session.user = { 
+                id: data[0].user_id, 
+                email: data[0].email, 
+                name: data[0].name,
+                role: data[0].role || 'user'  // 預設為 user
+            };
             res.set('HX-Redirect', '/dashboard'); 
             res.end();
         } else {
@@ -116,7 +154,10 @@ app.get('/register/form', (req, res) => {
 
 // 處理註冊
 app.post('/register', (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
+    
+    // 驗證 role 值
+    const validRole = ['admin', 'user'].includes(role) ? role : 'user';
     
     // 檢查郵箱是否已存在
     const checkSQL = "SELECT user_id FROM USER WHERE email = ?";
@@ -124,14 +165,19 @@ app.post('/register', (req, res) => {
         if (existing.length > 0) {
             res.send('<div class="alert alert-danger alert-dismissible fade show" style="border-radius: 8px; border-left: 4px solid #dc3545; animation: slideDown 0.3s ease-out;"><i class="bi bi-exclamation-triangle-fill me-2"></i>Email already registered<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div><style>@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); }}</style>');
         } else {
-            // 直接插入，讓 AUTO_INCREMENT 自動生成 user_id
-            const insertSQL = "INSERT INTO USER (name, email, password_hash) VALUES (?, ?, ?)";
-            doSQL(insertSQL, [name, email, password], res, function(data) {
+            // 插入新用戶，包含 role
+            const insertSQL = "INSERT INTO USER (name, email, password_hash, role) VALUES (?, ?, ?, ?)";
+            doSQL(insertSQL, [name, email, password, validRole], res, function(data) {
                 // 獲取剛插入的用戶
-                const selectSQL = "SELECT user_id, name, email FROM USER WHERE email = ?";
+                const selectSQL = "SELECT user_id, name, email, role FROM USER WHERE email = ?";
                 doSQL(selectSQL, [email], res, function(newUser) {
-                    // 自動登入
-                    req.session.user = { id: newUser[0].user_id, email: newUser[0].email, name: newUser[0].name };
+                    // 自動登入，session 中包含 role
+                    req.session.user = { 
+                        id: newUser[0].user_id, 
+                        email: newUser[0].email, 
+                        name: newUser[0].name,
+                        role: newUser[0].role 
+                    };
                     res.set('HX-Redirect', '/dashboard');
                     res.end();
                 });
@@ -264,15 +310,15 @@ app.get('/dashboard', requireLogin, (req, res) => {
 // === CRUD Routes ===
 const userRouter = require('./routes/users');
 userRouter.doSQL = doSQL;
-app.use('/users', requireLogin, userRouter);
+app.use('/users', requireLogin, requireAdmin, userRouter);
 
 const supplierRouter = require('./routes/suppliers');
 supplierRouter.doSQL = doSQL;
-app.use('/suppliers', requireLogin, supplierRouter);
+app.use('/suppliers', requireLogin, requireAdmin, supplierRouter);
 
 const categoryRouter = require('./routes/categories');
 categoryRouter.doSQL = doSQL;
-app.use('/categories', requireLogin, categoryRouter);
+app.use('/categories', requireLogin, requireAdmin, categoryRouter);
 
 const productRouter = require('./routes/products');
 productRouter.doSQL = doSQL;
@@ -292,7 +338,7 @@ app.use('/orders', requireLogin, orderRouter);
 
 const orderDetailRouter = require('./routes/order_details');
 orderDetailRouter.doSQL = doSQL;
-app.use('/order_details', requireLogin, orderDetailRouter);
+app.use('/order_details', requireLogin, requireAdmin, orderDetailRouter);
 
 // 根路徑重定向
 app.get('/', (req, res) => {

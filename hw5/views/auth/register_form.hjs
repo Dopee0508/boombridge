@@ -30,6 +30,18 @@
                         <input type="password" class="form-control" id="password" name="password" required style="border-radius: 8px; padding: 0.75rem; border: 2px solid #e2e8f0; font-size: 0.95rem;" placeholder="Create a password">
                     </div>
                     
+                    <div class="mb-4">
+                        <label for="role" class="form-label" style="font-weight: 500; color: #475569; font-size: 0.875rem;">Account Type</label>
+                        <select class="form-select" id="role" name="role" required style="border-radius: 8px; padding: 0.75rem; border: 2px solid #e2e8f0; font-size: 0.95rem;">
+                            <option value="user" selected>一般用戶 (User)</option>
+                            <option value="admin">管理員 (Admin)</option>
+                        </select>
+                        <small class="text-muted d-block mt-1" style="font-size: 0.8rem;">
+                            <strong>一般用戶:</strong> 可瀏覽產品、加入購物車、建立訂單<br>
+                            <strong>管理員:</strong> 擁有完整管理權限，可編輯所有資料
+                        </small>
+                    </div>
+                    
                     <button type="submit" class="btn w-100" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 8px; padding: 0.85rem; font-weight: 600; font-size: 1rem; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 16px rgba(16,185,129,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">Create Account</button>
                 </form>
                 

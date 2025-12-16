@@ -6,6 +6,15 @@ function doSQL(SQL, parms, res, callback) {
     app.doSQL(SQL, parms, res, callback);
 }
 
+// 權限檢查中間件
+function requireAdmin(req, res, next) {
+    if (req.session.user && req.session.user.role === 'admin') {
+        next();
+    } else {
+        res.status(403).send('<div class="alert alert-danger m-3"><i class="bi bi-shield-x me-2"></i>Access Denied: Admin privileges required</div>');
+    }
+}
+
 app.get(['/', '/index'], function (req, res) {
     const page = parseInt(req.query.page) || 1;
     const limit = 20;
@@ -105,7 +114,7 @@ app.post("/", function (req, res) {
     });
 });
 
-app.get("/:ID/edit", function (req, res) {
+app.get("/:ID/edit", requireAdmin, function (req, res) {
     let SQL = "SELECT product_id, vmd_sncs, category_id, supplier_id, list_price, stock_qty FROM PRODUCT WHERE product_id = ?";
     
     doSQL(SQL, [req.params.ID], res, function (data) {
@@ -145,7 +154,7 @@ app.get("/:ID/edit", function (req, res) {
     });
 });
 
-app.put("/:ID", function (req, res) {
+app.put("/:ID", requireAdmin, function (req, res) {
     const { vmd_sncs, category_id, supplier_id, list_price, stock_qty, action } = req.body;
     const product_id = req.params.ID;
 
@@ -180,7 +189,7 @@ app.put("/:ID", function (req, res) {
     }
 });
 
-app.delete("/:ID", function (req, res) {
+app.delete("/:ID", requireAdmin, function (req, res) {
     let SQL = "DELETE FROM PRODUCT WHERE product_id = ?";
     
     doSQL(SQL, [req.params.ID], res, function (data) {
