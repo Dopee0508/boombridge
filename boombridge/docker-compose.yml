@@ -12,7 +12,7 @@ services:
       MYSQL_USER: boombridge
       MYSQL_PASSWORD: password
     ports:
-      - "3306:3306"
+      - "23306:3306"
     volumes:
       # Mount SQL initialization files
       - ./sql:/docker-entrypoint-initdb.d
@@ -40,7 +40,7 @@ services:
       - .:/app/boombridge
       - /app/boombridge/node_modules
     ports:
-      - "8080:80"
+      - "20252:80"
     networks:
       - boombridge_network
     depends_on:
